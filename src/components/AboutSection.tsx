@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { aboutMe } from '../data';
 import { Mail, MapPin, Phone } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const AboutSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -25,9 +26,45 @@ const AboutSection: React.FC = () => {
     };
   }, []);
 
+  const backgroundCircles = [
+    { color: 'rgba(99, 102, 241, 0.1)', size: 250, x: 10, y: 10 }, // Indigo
+    { color: 'rgba(56, 189, 248, 0.1)', size: 200, x: 80, y: 20 }, // Sky blue
+    { color: 'rgba(34, 197, 94, 0.1)', size: 180, x: 50, y: 60 },  // Green
+  ];
+
   return (
-    <section id="about" ref={sectionRef} className="py-24 bg-white dark:bg-dev-dark-bg backdrop-blur-md bg-white/30 dark:bg-dev-dark-bg/30">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10">
+    <section
+      id="about"
+      ref={sectionRef}
+      className="relative py-24 bg-white dark:bg-dev-dark-bg backdrop-blur-md bg-white/30 dark:bg-dev-dark-bg/30 overflow-hidden"
+    >
+      {/* Background Circles */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {backgroundCircles.map((circle, index) => (
+          <motion.div
+            key={index}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              backgroundColor: circle.color,
+              width: circle.size,
+              height: circle.size,
+              left: `${circle.x}%`,
+              top: `${circle.y}%`,
+            }}
+            animate={{
+              x: [0, circle.size / 10, -circle.size / 12, 0],
+              y: [0, -circle.size / 15, circle.size / 15, 0],
+            }}
+            transition={{
+              duration: 40 + index * 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-6 sm:px-10 z-10">
         <div className="text-center mb-20">
           <h2 className="text-4xl font-extrabold text-gray-900 dark:text-dev-text-primary animate-on-scroll opacity-0">
             About Me

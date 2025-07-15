@@ -3,32 +3,33 @@ import { Project, Skill, Experience} from '../types';
 export const projects: Project[] = [
   {
     id: 1,
-    title: "E-commerce Platform",
-    description: "A full-featured e-commerce platform with product management, cart functionality, and payment processing.",
+    title: "Online Store Application",
+    description: "A full-featured online store with product catalog, wishlist, cart, and secure order management.",
     image: "https://images.pexels.com/photos/5076516/pexels-photo-5076516.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     category: "Show Projects",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+    technologies: ["React", "Springboot", "MySQL"],
     link: "https://example.com/ecommerce",
-    github: "https://github.com/yubin/ecommerce"
+    github: "https://github.com/chiragmalik27/Online-Store"
   },
   {
     id: 2,
-    title: "Health & Fitness App",
-    description: "Mobile application for tracking workouts, nutrition, and health metrics with personalized recommendations.",
+    title: "Roadmap Finder",
+    description: "A platform that helps users find the best career paths and resources for their desired career.",
     image: "https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     category: "Show Projects",
-    technologies: ["React Native", "Redux", "Firebase", "HealthKit API"],
-    link: "https://example.com/fitness-app",
-    github: "https://github.com/yubin/fitness-app"
+    technologies: ["React", "HTML", "CSS", "JavaScript"],
+    link: "https://example.com/roadmap-finder",
+    github: "https://github.com/chiragmalik27/roadmap-finder"
   },
   {
     id: 3,
-    title: "AI Content Generator",
-    description: "Web application that leverages AI to generate marketing content, blog posts, and social media updates.",
-    image: "https://images.pexels.com/photos/8438981/pexels-photo-8438981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    title: "Employee Management System",
+    description: "Web application that helps to manage employees and their details.",
+    image: "https://www.freepik.com/free-vector/audience-segmentation-abstract-concept-illustration_11667653.htm#fromView=keyword&page=1&position=0&uuid=368d4783-d1cb-45c7-8897-2ef4970b1ede&query=Employee+Management",
     category: "Show Projects",
-    technologies: ["Python", "TensorFlow", "OpenAI API", "Flask"],
-    link: "https://example.com/ai-content"
+    technologies: ["Java", "Springboot", "MySQL"],
+    link: "https://example.com/employee-management",
+    github: "https://github.com/chiragmalik27/Ems-fullstack"
   },
 ];
 
