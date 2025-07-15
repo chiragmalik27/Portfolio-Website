@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
             ))}
             <div className="pt-4 flex space-x-4 px-3 border-t border-gray-200 dark:border-dev-dark-bg-tertiary">
               <a
-                href="https://github.com/Yubin935"
+                href="https://github.com/chiragmalik27"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 dark:text-dev-text-primary hover:text-dev-accent-primary dark:hover:text-dev-accent-primary transition-colors"
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/yubin-b2327a255/"
+                href="https://www.linkedin.com/in/chirag-malik-a9a859265"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 dark:text-dev-text-primary hover:text-dev-accent-primary dark:hover:text-dev-accent-primary transition-colors"
@@ -119,7 +119,7 @@ const Navbar: React.FC = () => {
               </a>
 
               <a
-                href="https://twitter.com/yubin"
+                href="https://x.com/chiragmalik_27"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-700 dark:text-dev-text-primary hover:text-dev-accent-primary dark:hover:text-dev-accent-primary transition-colors"
