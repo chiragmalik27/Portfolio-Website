@@ -59,7 +59,7 @@ export const Portfolio = (): JSX.Element => {
       featured: "Featured Project",
       description:
         "A web app for managing employee data. It manages employee data and also provides a dashboard for HR to view employee data.",
-      image: "/images/WhatsApp Image 2025-07-27 at 00.59.48_406f39a5.jpg",
+      image: "https://github.com/chiragmalik27/Portfolio-Website/tree/main/images/Ems.jpg",
       technologies: ["React", "Spring Boot", "MySQL"],
       liveUrl: "#",
       githubUrl: "#",
@@ -70,7 +70,7 @@ export const Portfolio = (): JSX.Element => {
       featured: "Featured Project",
       description:
         "An intelligent analytics platform that uses machine learning to provide predictive insights and automated reporting. Features real-time data processing, customizable dashboards, and AI-driven recommendations for business optimization.",
-      image: "/images/WhatsApp Image 2025-07-27 at 00.51.08_49ebe0b6.jpg",
+      image: "https://github.com/chiragmalik27/Portfolio-Website/tree/main/images/AIBusiness.jpg",
       technologies: ["Python", "PowerBI", "SQL", "PostgreSQL"],
       liveUrl: "#",
       githubUrl: "#",
@@ -81,7 +81,7 @@ export const Portfolio = (): JSX.Element => {
       featured: "Featured Project",
       description:
         "An automated workflow that delivers personalized morning digests to Telegram, including weather forecasts, top 3 tech news stories, and calendar events. The system runs on a serverless architecture with automated error handling and failover mechanisms.",
-      image: "/images/WhatsApp Image 2025-07-27 at 01.06.04_a0ee7258.jpg",
+      image: "https://github.com/chiragmalik27/Portfolio-Website/tree/main/images/make.jpg",
       technologies: ["make.com", "Openweathermap API", "Telegram API", "RSS API"],
       liveUrl: "https://t.me/yourchannel",
       githubUrl: "https://github.com/yourusername/daily-digest-automation",
@@ -215,7 +215,7 @@ export const Portfolio = (): JSX.Element => {
                     <img
                       className="w-full h-full object-cover rounded-full animate-fade-in"
                       alt="Chirag Malik"
-                      src="images/50158c79-f01f-4133-b6af-8a4f37bd4cda.png"
+                      src="https://github.com/chiragmalik27/Portfolio-Website/tree/main/images/profile.png"
                     />
                   </Avatar>
                 </div>
