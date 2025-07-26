@@ -59,7 +59,7 @@ export const Portfolio = (): JSX.Element => {
       featured: "Featured Project",
       description:
         "A web app for managing employee data. It manages employee data and also provides a dashboard for HR to view employee data.",
-      image: "./images/Ems.jpg",
+      image: "/images/Ems.jpg",
       technologies: ["React", "Spring Boot", "MySQL"],
       liveUrl: "#",
       githubUrl: "#",
@@ -70,7 +70,7 @@ export const Portfolio = (): JSX.Element => {
       featured: "Featured Project",
       description:
         "An intelligent analytics platform that uses machine learning to provide predictive insights and automated reporting. Features real-time data processing, customizable dashboards, and AI-driven recommendations for business optimization.",
-      image: "./images/AIBussines.jpg",
+      image: "/images/AIBussines.jpg",
       technologies: ["Python", "PowerBI", "SQL", "PostgreSQL"],
       liveUrl: "#",
       githubUrl: "#",
@@ -81,7 +81,7 @@ export const Portfolio = (): JSX.Element => {
       featured: "Featured Project",
       description:
         "An automated workflow that delivers personalized morning digests to Telegram, including weather forecasts, top 3 tech news stories, and calendar events. The system runs on a serverless architecture with automated error handling and failover mechanisms.",
-      image: "./images/make.jpg",
+      image: "/images/make.jpg",
       technologies: ["make.com", "Openweathermap API", "Telegram API", "RSS API"],
       liveUrl: "https://t.me/yourchannel",
       githubUrl: "https://github.com/yourusername/daily-digest-automation",
@@ -215,7 +215,7 @@ export const Portfolio = (): JSX.Element => {
                     <img
                       className="w-full h-full object-cover rounded-full animate-fade-in"
                       alt="Chirag Malik"
-                      src="./images/Profile.png"
+                      src="/images/Profile.png"
                     />
                   </Avatar>
                 </div>
