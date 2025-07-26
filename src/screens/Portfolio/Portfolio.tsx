@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useInView, useAnimation } from "framer-motion";
 import { Avatar } from "../../components/ui/avatar";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
@@ -10,7 +10,110 @@ import {
   NavigationMenuList,
 } from "../../components/ui/navigation-menu";
 
+// Custom hook for scroll animations
+const useScrollAnimation = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    }
+  }, [isInView, controls]);
+
+  return { ref, controls, isInView };
+};
+
 export const Portfolio = (): JSX.Element => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 50,
+      scale: 0.9
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const fadeInUpVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 60 
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const slideInVariants = {
+    hidden: { 
+      opacity: 0, 
+      x: -60 
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const slideInRightVariants = {
+    hidden: { 
+      opacity: 0, 
+      x: 60 
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const scaleInVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.8 
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
   // Navigation links data
   const navLinks = [
     { text: "Home", href: "#home" },
@@ -257,55 +360,84 @@ export const Portfolio = (): JSX.Element => {
       </section>
 
       {/* Work Experience Section */}
-      <section id="about" className="py-20 relative">
+      <motion.section 
+        id="about" 
+        className="py-20 relative"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUpVariants}
+          >
             <h2 className="text-4xl lg:text-5xl font-bold mb-4">Work Experience</h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               My journey through various roles in technology and business analysis
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {workExperienceCards.map((card) => (
-              <Card
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-2 gap-8"
+            variants={containerVariants}
+          >
+            {workExperienceCards.map((card, index) => (
+              <motion.div
                 key={card.id}
-                className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 border-purple-700/30 hover:border-purple-600/50 transition-all duration-300 hover:transform hover:scale-105"
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.3 }
+                }}
               >
-                <CardContent className="p-8">
-                  <div className="flex items-start space-x-6">
-                    <div className="w-16 h-16 bg-purple-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <img
-                        className="w-10 h-10 object-contain"
-                        alt="Company logo"
-                        src={card.image}
-                      />
+                <Card className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 border-purple-700/30 hover:border-purple-600/50 transition-all duration-300">
+                  <CardContent className="p-8">
+                    <div className="flex items-start space-x-6">
+                      <motion.div 
+                        className="w-16 h-16 bg-purple-600/20 rounded-lg flex items-center justify-center flex-shrink-0"
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.6 }}
+                      >
+                        <img
+                          className="w-10 h-10 object-contain"
+                          alt="Company logo"
+                          src={card.image}
+                        />
+                      </motion.div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold text-white mb-1">
+                          {card.title}
+                        </h3>
+                        <p className="text-purple-400 font-medium mb-3">
+                          {card.company}
+                        </p>
+                        <p className="text-gray-400 text-sm leading-relaxed">
+                          {card.description}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-white mb-1">
-                        {card.title}
-                      </h3>
-                      <p className="text-purple-400 font-medium mb-3">
-                        {card.company}
-                      </p>
-                      <p className="text-gray-400 text-sm leading-relaxed">
-                        {card.description}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Team/Values Section */}
-      <section className="py-32 relative overflow-hidden bg-gradient-to-b from-[#190b2d] to-purple-900/20">
+      <motion.section 
+        className="py-32 relative overflow-hidden bg-gradient-to-b from-[#190b2d] to-purple-900/20"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
+      >
         {/* Enhanced Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
@@ -316,56 +448,98 @@ export const Portfolio = (): JSX.Element => {
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           <div className="space-y-12">
             {/* Enhanced Headline */}
-            <div className="space-y-6">
-              <h2 className="text-5xl lg:text-6xl font-bold leading-tight animate-slide-in-up">
+            <motion.div 
+              className="space-y-6"
+              variants={fadeInUpVariants}
+            >
+              <h2 className="text-5xl lg:text-6xl font-bold leading-tight">
                 I'm currently looking to join a{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse">cross-functional</span> team
               </h2>
-              <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed animate-fade-in [animation-delay:0.5s]">
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
                 that values improving people's lives through accessible design and innovative solutions
               </p>
-            </div>
+            </motion.div>
 
             {/* Enhanced Tech Icons Row */}
-            <div className="flex flex-wrap justify-center gap-6 mt-12 animate-fade-in [animation-delay:0.8s]">
+            <motion.div 
+              className="flex flex-wrap justify-center gap-6 mt-12"
+              variants={containerVariants}
+            >
               {/* Real Tech Stack Icons */}
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-xl flex items-center justify-center border border-purple-500/30 hover:scale-110 hover:bg-purple-600/30 transition-all duration-300 cursor-pointer">
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-xl flex items-center justify-center border border-purple-500/30 hover:scale-110 hover:bg-purple-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/react.svg" alt="React" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">⚛️</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-xl flex items-center justify-center border border-blue-500/30 hover:scale-110 hover:bg-blue-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-xl flex items-center justify-center border border-blue-500/30 hover:scale-110 hover:bg-blue-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: -5 }}
+              >
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/java.svg" alt="Java" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">☕</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-xl flex items-center justify-center border border-green-500/30 hover:scale-110 hover:bg-green-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-xl flex items-center justify-center border border-green-500/30 hover:scale-110 hover:bg-green-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/springboot.svg" alt="Spring Boot" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">🌱</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 rounded-xl flex items-center justify-center border border-yellow-500/30 hover:scale-110 hover:bg-yellow-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 rounded-xl flex items-center justify-center border border-yellow-500/30 hover:scale-110 hover:bg-yellow-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: -5 }}
+              >
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/python.svg" alt="Python" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">🐍</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-xl flex items-center justify-center border border-red-500/30 hover:scale-110 hover:bg-red-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-xl flex items-center justify-center border border-red-500/30 hover:scale-110 hover:bg-red-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
                 <img src="https://img.icons8.com/color/48/power-bi.png" alt="Power BI" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">📊</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-600/20 to-indigo-800/20 rounded-xl flex items-center justify-center border border-indigo-500/30 hover:scale-110 hover:bg-indigo-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-indigo-600/20 to-indigo-800/20 rounded-xl flex items-center justify-center border border-indigo-500/30 hover:scale-110 hover:bg-indigo-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: -5 }}
+              >
                 <img src="https://img.icons8.com/color/48/external-artificial-intelligence-machine-learning-flat-flat-juicy-fish.png" alt="AI" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">🤖</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-600/20 to-pink-800/20 rounded-xl flex items-center justify-center border border-pink-500/30 hover:scale-110 hover:bg-pink-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-pink-600/20 to-pink-800/20 rounded-xl flex items-center justify-center border border-pink-500/30 hover:scale-110 hover:bg-pink-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
                 <img src="https://img.icons8.com/color/48/sql.png" alt="SQL" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">🗄️</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-cyan-600/20 to-cyan-800/20 rounded-xl flex items-center justify-center border border-cyan-500/30 hover:scale-110 hover:bg-cyan-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-cyan-600/20 to-cyan-800/20 rounded-xl flex items-center justify-center border border-cyan-500/30 hover:scale-110 hover:bg-cyan-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: -5 }}
+              >
                 <img src="https://img.icons8.com/color/48/microsoft-excel-2019--v1.png" alt="Excel" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">📈</span>
-              </div>
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-600/20 to-orange-800/20 rounded-xl flex items-center justify-center border border-orange-500/30 hover:scale-110 hover:bg-orange-600/30 transition-all duration-300 cursor-pointer">
+              </motion.div>
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-br from-orange-600/20 to-orange-800/20 rounded-xl flex items-center justify-center border border-orange-500/30 hover:scale-110 hover:bg-orange-600/30 transition-all duration-300 cursor-pointer"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
                 <img src="https://img.icons8.com/color/48/database.png" alt="DBMS" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; ((e.target as HTMLImageElement).nextSibling as HTMLElement).style.display = 'block'; }} />
                 <span className="text-2xl hidden">💾</span>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Enhanced Orbiting Logo and Icons */}
             <div className="relative flex justify-center items-center py-20">
@@ -425,42 +599,64 @@ export const Portfolio = (): JSX.Element => {
             </div>
 
             {/* Additional Call to Action */}
-            <div className="animate-fade-in [animation-delay:1.2s]">
+            <motion.div 
+              className="animate-fade-in [animation-delay:1.2s]"
+              variants={fadeInUpVariants}
+            >
               <p className="text-lg text-gray-300 mb-6">
                 Ready to collaborate on innovative projects?
               </p>
               <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 Let's Build Something Amazing
               </Button>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 relative">
+      <motion.section 
+        id="projects" 
+        className="py-20 relative"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="absolute inset-0">
           <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUpVariants}
+          >
             <h2 className="text-4xl lg:text-5xl font-bold mb-4">Featured Projects</h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Some of my recent work that showcases my skills and passion for creating impactful solutions
             </p>
-          </div>
+          </motion.div>
 
-          <div className="space-y-20">
+          <motion.div 
+            className="space-y-20"
+            variants={containerVariants}
+          >
             {projects.map((project, index) => (
-              <div
+              <motion.div
                 key={project.id}
                 className={`grid lg:grid-cols-2 gap-12 items-center ${
                   index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
                 }`}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
               >
                 {/* Project Image */}
-                <div className={`${index % 2 === 1 ? "lg:col-start-2" : ""}`}>
+                <motion.div 
+                  className={`${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+                  variants={index % 2 === 0 ? slideInVariants : slideInRightVariants}
+                >
                   <div className="relative group">
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-purple-800/20 rounded-lg transform group-hover:scale-105 transition-transform duration-300"></div>
                     <img
@@ -469,10 +665,13 @@ export const Portfolio = (): JSX.Element => {
                       src={project.image}
                     />
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Project Details */}
-                <div className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}>
+                <motion.div 
+                  className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""}`}
+                  variants={index % 2 === 0 ? slideInRightVariants : slideInVariants}
+                >
                   <div>
                     <Badge className="bg-purple-600/20 text-purple-400 border-purple-600/30 mb-4">
                       {project.featured}
@@ -488,16 +687,21 @@ export const Portfolio = (): JSX.Element => {
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
+                  <motion.div 
+                    className="flex flex-wrap gap-3"
+                    variants={containerVariants}
+                  >
                     {project.technologies.map((tech, techIndex) => (
-                      <span
+                      <motion.span
                         key={techIndex}
                         className="px-3 py-1 bg-purple-800/30 text-purple-300 rounded-full text-sm font-medium"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.1 }}
                       >
                         {tech}
-                      </span>
+                      </motion.span>
                     ))}
-                  </div>
+                  </motion.div>
 
                   <div className="flex space-x-4">
                     <Button
@@ -515,62 +719,95 @@ export const Portfolio = (): JSX.Element => {
                       View Code
                     </Button>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 relative">
+      <motion.section 
+        id="contact" 
+        className="py-20 relative"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="absolute inset-0">
           <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-bold">Get In Touch</h2>
+          <motion.div 
+            className="space-y-8"
+            variants={containerVariants}
+          >
+            <motion.h2 
+              className="text-4xl lg:text-5xl font-bold"
+              variants={fadeInUpVariants}
+            >
+              Get In Touch
+            </motion.h2>
             
-            <div className="space-y-6">
+            <motion.div 
+              className="space-y-6"
+              variants={fadeInUpVariants}
+            >
               <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
                 I'm currently looking to join a cross-functional team that values improving people's lives
                 through accessible design. Have a project in mind? Let's connect.
               </p>
               
               <div className="space-y-4">
-                <p className="text-purple-400 text-xl font-semibold">
+                <motion.p 
+                  className="text-purple-400 text-xl font-semibold"
+                  variants={scaleInVariants}
+                >
                   chiragmalik1700@gmail.com
-                </p>
+                </motion.p>
                 
-                <div className="flex justify-center space-x-6 pt-4">
+                <motion.div 
+                  className="flex justify-center space-x-6 pt-4"
+                  variants={containerVariants}
+                >
                   {socialIcons.map((icon, index) => (
-                    <Button
+                    <motion.div
                       key={index}
-                      variant="ghost"
-                      size="lg"
-                      className="w-12 h-12 p-0 hover:bg-purple-600/20 transition-colors"
-                      onClick={() => window.open(icon.href, '_blank')}
+                      variants={itemVariants}
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      whileTap={{ scale: 0.9 }}
                     >
-                      <img
-                        className="w-6 h-6"
-                        alt={icon.label}
-                        src={icon.src}
-                      />
-                    </Button>
+                      <Button
+                        variant="ghost"
+                        size="lg"
+                        className="w-12 h-12 p-0 hover:bg-purple-600/20 transition-colors"
+                        onClick={() => window.open(icon.href, '_blank')}
+                      >
+                        <img
+                          className="w-6 h-6"
+                          alt={icon.label}
+                          src={icon.src}
+                        />
+                      </Button>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="pt-8">
+            <motion.div 
+              className="pt-8"
+              variants={fadeInUpVariants}
+            >
               <Button className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-4 text-lg rounded-lg transition-colors">
                 Let's Work Together
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Footer */}
       <footer className="border-t border-purple-800/30 py-8">
